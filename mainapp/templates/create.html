@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+
+{% block title %}Форма добавления кастинга{% endblock title %}
+
+{% block content %}
+
+<!--    {{ form.as_p }}-->
+    <div class="features">
+        <h1>Форма добавления кастинга</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.title }}<br>
+            {{ form.author }}<br>
+            {{ form.category }}<br>
+            {{ form.height }}<br>
+            {{ form.size }}<br>
+            {{ form.sizeshoe }}<br>
+            {{ form.place }}<br>
+            {{ form.date }}<br>
+            {{ form.time }}<br>
+            {{ form.hour }}<br>
+            {{ form.description }}<br>
+            {{ form.fee }}<br>
+            <span>{{ error }}</span>
+            <button class="btn btn-primary" type="submit">Добавить кастинг</button>
+        </form>
+    </div>
+
+{% endblock content %}
+
+
+
+
+
+

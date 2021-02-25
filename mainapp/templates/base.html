@@ -1,0 +1,38 @@
+<html>
+ {% load static %}
+<html>
+  <head>
+    <title>Cast service</title>
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400"
+    rel="stylesheet">
+    <link href="{% static 'css/base.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  </head>
+  </head>
+  <body>
+    <div>
+      <header>
+        <div class="nav-left">
+          <h1><a href="{% url 'home' %}">Кастинги</a></h1>
+        </div>
+
+        {% if user.is_authenticated %}
+          <p>Hi {{ user.username }}!</p>
+          <a href="{% url 'create' %}"><button class="btn btn-info"><i></i>Добавить кастинг</button></a>
+          <p><a href="{% url 'logout' %}">Выйти</a></p>
+          <a href="{% url 'profile'  %}"><button class="btn btn-info"><i></i>Профиль</button></a>
+        {% else %}
+          <p>You are not logged in.</p>
+          <a class="btn btn-primary" href="{% url 'login' %}">Войти</a><br>
+          <a href="{% url 'signup' %}">Регистрация</a>
+
+        {% endif %}
+
+      </header>
+      <div class="container">
+        {% block content %}
+        {% endblock content %}
+      </div>
+    </div>
+  </body>
+</html>

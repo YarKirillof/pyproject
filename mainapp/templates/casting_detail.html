@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="casting-entry">
+    <h2>{{ casting.title }}</h2>
+    <p>Требуются: {{ casting.category }}</p>
+    <h3>Рост: {{ casting.height }} Одежда: {{ casting.size }} Обувь: {{ casting.sizeshoe }}</h3>
+    <p>Дата съемки: {{ casting.date }} Время сбора  {{ casting.time }}</p>
+    <p>Адрес: {{ casting.place }}</p>
+    <p>Занятость: {{ casting.hour }}</p>
+    <p>Ставка: {{ casting.fee }}</p>
+    <p>Описание: {{ casting.description }}</p>
+  </div>
+
+{% endblock content %}

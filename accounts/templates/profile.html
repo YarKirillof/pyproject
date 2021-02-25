@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Профиль</h2>
+    <div class="profile-entry">
+        <p>ФИО: {{ profile.fio }}</p>
+
+    </div>
+
+
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+
+</form>
+{% endblock content %}

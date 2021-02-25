@@ -1,0 +1,51 @@
+header h1 a {
+  color: red;
+}
+
+body {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 18px;
+}
+
+header {
+  border-bottom: 1px solid #999;
+  margin-bottom: 2rem;
+  display: flex;
+}
+
+header h1 a {
+  color: red;
+  text-decoration: none;
+}
+
+.nav-left {
+  margin-right: auto;
+}
+
+.nav-right {
+  display: flex;
+  padding-top: 2rem;
+}
+
+.casting-entry {
+  margin-bottom: 2rem;
+}
+
+.casting-entry h2 {
+  margin: 0.5rem 0;
+}
+
+.casting-entry h2 a,
+.casting-entry h2 a:visited {
+  color: blue;
+  text-decoration: none;
+}
+
+.casting-entry p {
+  margin: 0;
+  font-weight: 400;
+}
+
+.casting-entry h2 a:hover {
+  color: red;
+}

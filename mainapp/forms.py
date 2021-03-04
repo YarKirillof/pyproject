@@ -6,7 +6,7 @@ class CastingForm(ModelForm):
     class Meta:
         model = Casting
         author = 'auth.User'
-        fields = ['title', 'author', 'category', 'height', 'size', 'sizeshoe',
+        fields = ['title', 'category', 'height', 'size', 'sizeshoe',
                   'place', 'date', 'time', 'hour', 'description', 'fee']
 
         widgets = {

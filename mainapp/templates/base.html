@@ -1,5 +1,6 @@
 <html>
  {% load static %}
+ {% load has_group %}
 <html>
   <head>
     <title>Cast service</title>
@@ -18,9 +19,11 @@
 
         {% if user.is_authenticated %}
           <p>Hi {{ user.username }}!</p>
+          {% if request.user|has_group:"Moderator" or request.user.is_superuser %}
           <a href="{% url 'create' %}"><button class="btn btn-info"><i></i>Добавить кастинг</button></a>
+          {% endif %}
           <p><a href="{% url 'logout' %}">Выйти</a></p>
-          <a href="{% url 'profile'  %}"><button class="btn btn-info"><i></i>Профиль</button></a>
+          <a href="{% url 'profile_detail' pk=user.id %}"><button class="btn btn-info"><i></i>Профиль</button></a>
         {% else %}
           <p>You are not logged in.</p>
           <a class="btn btn-primary" href="{% url 'login' %}">Войти</a><br>

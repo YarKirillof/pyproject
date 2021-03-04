@@ -3,14 +3,14 @@
 {% block content %}
     <h2>Профиль</h2>
     <div class="profile-entry">
-        <p>ФИО: {{ profile.fio }}</p>
-
+        <p>ФИО: {{ queryset.fio }}</p>
     </div>
 
 
 <form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-
+    {% csrf_token %}
+    {{ form.as_p }}
+    {{ error }}
+    <button class="btn btn-primary" type="submit">Изменить профиль</button>
 </form>
 {% endblock content %}

@@ -11,4 +11,16 @@
     <p>Ставка: {{ casting.fee }}</p>
     <p>Описание: {{ casting.description }}</p>
   </div>
+    <div>
+        {% for profile in profiles %}
+                <div>
+                    {{ profile.fio }}
+                </div>
+                <form>
+                    {{ form }}
+                    {{ error }}
+                    <button class="btn btn-primary" type="submit">Нанять</button>
+                </form>
+        {% endfor %}
+    </div>
 {% endblock content %}

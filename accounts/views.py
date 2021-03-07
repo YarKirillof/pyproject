@@ -30,7 +30,6 @@ def profile(request, pk):
     form = ProfileEditForm(instance=queryset)
     return render(request, 'profile.html', context={'queryset': queryset, 'form': form, 'error': error})
 
-
 #class ProfileListView(generic.ListView):
 #    success_url = reverse_lazy('profile')
 #    template_name = 'profile.html'

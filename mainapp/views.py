@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView
 from orders.forms import OrderForm
 from orders.models import Order
-from accounts.models import Profile
 from .forms import CastingForm
 
 from .models import Casting
@@ -20,22 +19,26 @@ class MainappDetailView(DetailView):
 
 def casting_detail(request, pk):
     error = ''
+    casting = Casting.objects.filter(id=pk).first()
+    orders = Order.objects.prefetch_related('user').filter(casting_id=pk)
     if request.method == 'POST':
-        form = OrderForm(request.POST, instance=Order.objects.filter(casting_id=pk))
+        value = request.POST.get('test_id')
+        order = Order.objects.filter(id=request.POST.get('order_id')).first()
+        form = OrderForm(request.POST, instance=order)
         if form.is_valid():
+            tmp_order = form.save(commit=False)
+            if value == 'True':
+                tmp_order.hired = False
+            elif value == 'False':
+                tmp_order.hired = True
             form.save()
-            return redirect('casting_detail')
+            return redirect('home')
         else:
             error = form.errors
-    form = OrderForm(instance=Order.objects.filter(casting_id=pk).first())
-    casting = Casting.objects.filter(id=pk).first()
-    orders = list(Order.objects.prefetch_related('user').filter(casting_id=pk))
-    ids_list = []
-    for i in orders:
-        ids_list.append(i.user.id)
-    profiles = Profile.objects.prefetch_related('user').filter(user_id__in=ids_list)
+    form = OrderForm()
+    pass
     return render(request, 'casting_detail.html',
-                  context={'casting': casting, 'profiles': profiles, 'orders': orders, 'form': form, 'error': error})
+                  context={'casting': casting, 'orders': orders, 'error': error, 'form': form})
 
 
 def create(request):

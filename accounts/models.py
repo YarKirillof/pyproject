@@ -1,14 +1,16 @@
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AbstractUser
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 
 
-class Profile(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+class Profile(AbstractUser):
+    first_name = None
+    last_name = None
+    #user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     fio = models.CharField(max_length=250, null=True, blank=True)
     bio = models.TextField(max_length=250, null=True, blank=True)
     location = models.CharField(max_length=250, null=True, blank=True)
@@ -29,8 +31,7 @@ class Profile(models.Model):
     #             instance.profile.save()
     #         except ObjectDoesNotExist:
     #             Profile.objects.create(user=instance)
-    def __str__(self):
-        return self.user.username
+
 #
 # @receiver(post_save, sender=User)
 # def create_user_profile(sender, instance, created, **kwargs):

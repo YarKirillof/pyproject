@@ -12,14 +12,20 @@
     <p>Описание: {{ casting.description }}</p>
   </div>
     <div>
-        {% for profile in profiles %}
+        <h2>Отклики</h2>
+        {% for order in orders %}
                 <div>
-                    {{ profile.fio }}
+                    >> {{ order.user.fio }} <br>
+                    >> {{ order.user.height }}
                 </div>
-                <form>
-                    {{ form }}
-                    {{ error }}
-                    <button class="btn btn-primary" type="submit">Нанять</button>
+                <form method="post">
+                    {% csrf_token %}
+                    {% if order.hired %}
+                        <input class="btn btn-primary" type="submit" value="{{ order.hired }}" name="test_id">Нанять</input>
+                    {% else %}
+                        <input class="btn btn-primary" type="submit" value="{{ order.hired }}" name="test_id">Снять кандидатуру</input>
+                    {% endif %}
+                    <input type="hidden" value="{{ order.id }}" name="order_id">
                 </form>
         {% endfor %}
     </div>

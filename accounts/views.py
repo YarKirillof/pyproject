@@ -1,22 +1,24 @@
+from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.views import generic
-from .forms import ProfileEditForm
+from .forms import ProfileEditForm, SignUpForm
 from .models import Profile
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
 
+User = get_user_model()
+
 
 class SignUpView(generic.CreateView):
-    form_class = UserCreationForm
+    form_class = SignUpForm
     success_url = reverse_lazy('login')
     template_name = 'signup.html'
 
 @login_required
 def profile(request, pk):
-    queryset = Profile.objects.prefetch_related('user').filter(user__id=pk).first()
+    queryset = Profile.objects.filter(id=pk).first()
     error = ''
     if request.method == 'POST':
         form = ProfileEditForm(request.POST, instance=queryset)
@@ -29,16 +31,6 @@ def profile(request, pk):
             error = form.errors
     form = ProfileEditForm(instance=queryset)
     return render(request, 'profile.html', context={'queryset': queryset, 'form': form, 'error': error})
-
-#class ProfileListView(generic.ListView):
-#    success_url = reverse_lazy('profile')
-#    template_name = 'profile.html'
-#   def get_queryset(self):
-#        self.profile = Profile.objects.prefetch_related('user').filter(user__exact=User.objects.get(pk=self.kwargs.get('pk')))
-
-
-
-# def ProfileListView(request):
 
 
 

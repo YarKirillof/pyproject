@@ -1,11 +1,12 @@
 from django.db import models
+from my_project import settings
 
 
 # Create your models here.
 
 class Casting(models.Model):
     title = models.CharField(max_length=255, null=True,  verbose_name='Наименование')
-    author = models.ForeignKey('auth.User', on_delete=models.CASCADE)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     category = models.CharField(max_length=255, null=True,  verbose_name='Категория')
     height = models.CharField(max_length=255, null=True,  verbose_name='Рост')
     size = models.CharField(max_length=255, null=True,  verbose_name='Размер_одежды')

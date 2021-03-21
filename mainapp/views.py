@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView
-from orders.forms import OrderForm
+from orders.forms import OrderForm, OrderCreationForm
 from orders.models import Order
 from .forms import CastingForm
 
@@ -12,9 +12,24 @@ class MainappListView(ListView):
     template_name = 'home.html'
 
 
-class MainappDetailView(DetailView):
-    model = Casting
-    template_name = 'casting_detail.html'
+def index(request):
+    castings = Casting.objects.all()
+    error = ''
+    order = None
+    if request.method == 'POST':
+        casting_id = request.POST.get('casting_id')
+        order = Order.objects.filter(casting_id=casting_id, user_id=request.user.id)
+        form = OrderForm(request.POST)
+        if form.is_valid():
+            tmp_order = form.save(commit=False)
+            tmp_order.casting = Casting.objects.filter(id=casting_id).first()
+            tmp_order.user = request.user
+            form.save()
+            return redirect('home')
+        else:
+            error = form.errors
+    form = OrderCreationForm()
+    return render(request, 'home.html', context={'castings': castings, 'form': form, 'order': order})
 
 
 def casting_detail(request, pk):
@@ -32,7 +47,7 @@ def casting_detail(request, pk):
             elif value == 'False':
                 tmp_order.hired = True
             form.save()
-            return redirect('home')
+            return redirect('casting_detail', pk=casting.id)
         else:
             error = form.errors
     form = OrderForm()
@@ -61,4 +76,3 @@ def create(request):
     }
 
     return render(request, 'create.html', data)
-

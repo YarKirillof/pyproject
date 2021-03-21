@@ -1,11 +1,11 @@
 from django.urls import path
 from . import views
-from .views import MainappListView, MainappDetailView, casting_detail
+from .views import casting_detail, index
 
 
 urlpatterns = [
     path('casting/<int:pk>/', casting_detail, name='casting_detail'),
-    path('', MainappListView.as_view(), name='home'),
+    path('', index, name='home'),
     path('create', views.create, name='create'),
 
 ]

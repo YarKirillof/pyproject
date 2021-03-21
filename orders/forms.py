@@ -6,3 +6,10 @@ class OrderForm(forms.ModelForm):
     class Meta:
         model = Order
         fields = ('hired',)
+
+
+class OrderCreationForm(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields = ('casting',
+                  'user',)

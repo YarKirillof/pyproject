@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  {% for casting in object_list %}
+  {% for casting in castings %}
     <div class="casting-entry">
       <h2><a href="{% url 'casting_detail' casting.pk %}">{{ casting.title }}</a></h2>
       <p>Требуются: {{ casting.category }}</p>
@@ -11,8 +11,13 @@
       <p>Занятость: {{ casting.hour }}</p>
       <p>Ставка: {{ casting.fee }}</p>
       <p>Описание: {{ casting.description }}</p>
-
-
+        {% if not order %}
+        <form method="post">
+            {% csrf_token %}
+            <input class="btn btn-primary" type="submit" value="Откликнуться на заявку" name="test_id">
+            <input type="hidden" name="casting_id" value={{ casting.id }}>
+        </form>
+        {% endif %}
     </div>
   {% endfor %}
 {% endblock content %}

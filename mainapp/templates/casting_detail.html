@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
+{% load has_group %}
 
 {% block content %}
-  <div class="casting-entry">
+  <div>
+  <div class="casting-entry" style="width: 50%; float: left">
     <h2>{{ casting.title }}</h2>
     <p>Требуются: {{ casting.category }}</p>
     <h3>Рост: {{ casting.height }} Одежда: {{ casting.size }} Обувь: {{ casting.sizeshoe }}</h3>
@@ -11,12 +13,12 @@
     <p>Ставка: {{ casting.fee }}</p>
     <p>Описание: {{ casting.description }}</p>
   </div>
-    <div>
+    {% if request.user|has_group:"Moderator" or request.user.is_superuser %}
+    <div style="width: 50%; float: left">
         <h2>Отклики</h2>
         {% for order in orders %}
                 <div>
-                    >> {{ order.user.fio }} <br>
-                    >> {{ order.user.height }}
+                    <a href="{% url 'profile_detail' order.user.id %}">{{ order.user.fio }}</a> <br>
                 </div>
                 <form method="post">
                     {% csrf_token %}
@@ -29,4 +31,6 @@
                 </form>
         {% endfor %}
     </div>
+    {% endif %}
+  </div>
 {% endblock content %}

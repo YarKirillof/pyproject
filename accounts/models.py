@@ -10,7 +10,6 @@ from django.dispatch import receiver
 class Profile(AbstractUser):
     first_name = None
     last_name = None
-    #user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     fio = models.CharField(max_length=250, null=True, blank=True)
     bio = models.TextField(max_length=250, null=True, blank=True)
     location = models.CharField(max_length=250, null=True, blank=True)
@@ -20,7 +19,7 @@ class Profile(AbstractUser):
     shoe = models.CharField(max_length=10, null=True, blank=True)
     phone = models.CharField(max_length=11, null=True, blank=True)
     pass_data = models.CharField(max_length=9, null=True, blank=True)
-    # photo = models.ImageField(upload_to='users/%Y/%m/%d', blank=True)
+    photo = models.ImageField(blank=True)
 
     # @receiver(post_save, sender=User)
     # def save_or_create_profile(sender, instance, created, **kwargs):

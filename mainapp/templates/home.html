@@ -12,11 +12,12 @@
       <p>Ставка: {{ casting.fee }}</p>
       <p>Описание: {{ casting.description }}</p>
         {% if not order %}
-        <form method="post">
-            {% csrf_token %}
-            <input class="btn btn-primary" type="submit" value="Откликнуться на заявку" name="test_id">
-            <input type="hidden" name="casting_id" value={{ casting.id }}>
-        </form>
+            <form method="post">
+                {% csrf_token %}
+                <input class="btn btn-primary" type="submit" value="Откликнуться на заявку" name="test_id">
+                <input type="hidden" name="casting_id" value={{ casting.id }}>
+            </form>
+            {{ error }}
         {% endif %}
     </div>
   {% endfor %}

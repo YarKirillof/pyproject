@@ -16,15 +16,17 @@ class SignUpView(generic.CreateView):
     success_url = reverse_lazy('login')
     template_name = 'signup.html'
 
+
 @login_required
 def profile(request, pk):
     queryset = Profile.objects.filter(id=pk).first()
     error = ''
     if request.method == 'POST':
-        form = ProfileEditForm(request.POST, instance=queryset)
+        form = ProfileEditForm(request.POST, request.FILES, instance=queryset)
         if form.is_valid():
             post = form.save(commit=False)
             post.user = request.user
+            # post.photo = form.cleaned_data.get("photo")
             post.save()
             return redirect('home')
         else:
@@ -33,5 +35,6 @@ def profile(request, pk):
     return render(request, 'profile.html', context={'queryset': queryset, 'form': form, 'error': error})
 
 
-
-
+def profile_view(request, pk):
+    query = Profile.objects.filter(id=pk).first()
+    return render(request, 'profile_view.html', context={'query': query})

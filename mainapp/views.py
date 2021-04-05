@@ -18,18 +18,19 @@ def index(request):
     order = None
     if request.method == 'POST':
         casting_id = request.POST.get('casting_id')
-        order = Order.objects.filter(casting_id=casting_id, user_id=request.user.id)
-        form = OrderForm(request.POST)
-        if form.is_valid():
-            tmp_order = form.save(commit=False)
-            tmp_order.casting = Casting.objects.filter(id=casting_id).first()
-            tmp_order.user = request.user
-            form.save()
-            return redirect('home')
+        order = Order.objects.filter(casting_id=casting_id, user_id=request.user.id).first()
+        if order:
+            error = 'Заявка уже существует'
         else:
-            error = form.errors
+            form = OrderForm(request.POST)
+            if form.is_valid():
+                tmp_order = form.save(commit=False)
+                tmp_order.casting = Casting.objects.filter(id=casting_id).first()
+                tmp_order.user = request.user
+                form.save()
+                return redirect('home')
     form = OrderCreationForm()
-    return render(request, 'home.html', context={'castings': castings, 'form': form, 'order': order})
+    return render(request, 'home.html', context={'castings': castings, 'form': form, 'order': order,'error':error})
 
 
 def casting_detail(request, pk):

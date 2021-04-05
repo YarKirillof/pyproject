@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="user-profile">
+        <h2>ФИО: {{ query.fio }}</h2>
+        {% if query.photo.url %}
+        <img src="{{ query.photo.url }}" sizes="" height="100" width="100" alt="Аватар">
+        {% endif %}
+        <p>Описание: {{ query.bio }}</p>
+        <p>Дата рождения: {{ query.birth_date }}</p>
+        <p>Рост: {{ query.height }}</p>
+        <p>Размер одежды: {{ query.size }}</p>
+        <p>Размер обуви: {{ query.shoe }}</p>
+        <p>Паспортные данные: {{ query.pass_data }}</p>
+    </div>
+{% endblock %}

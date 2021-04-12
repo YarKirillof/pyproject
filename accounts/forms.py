@@ -18,6 +18,7 @@ class SignUpForm(UserCreationForm):
         fields = ('username',
                   )
 class ProfileEditForm(forms.ModelForm):
+    photo = forms.ImageField(required=False)
     class Meta:
         model = Profile
         fields = ('fio',
@@ -28,5 +29,6 @@ class ProfileEditForm(forms.ModelForm):
                   'size',
                   'shoe',
                   'phone',
-                  'pass_data',)
+                  'pass_data',
+                  'photo')
 

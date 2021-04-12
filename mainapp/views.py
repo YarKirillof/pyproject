@@ -15,7 +15,10 @@ class MainappListView(ListView):
 def index(request):
     castings = Casting.objects.all()
     error = ''
-    order = None
+    order = Order.objects.filter(user_id=request.user.id)
+    cast_ids = []
+    for cast in order:
+        cast_ids.append(cast.casting.id)
     if request.method == 'POST':
         casting_id = request.POST.get('casting_id')
         order = Order.objects.filter(casting_id=casting_id, user_id=request.user.id).first()
@@ -27,10 +30,11 @@ def index(request):
                 tmp_order = form.save(commit=False)
                 tmp_order.casting = Casting.objects.filter(id=casting_id).first()
                 tmp_order.user = request.user
+                tmp_order.hired = True
                 form.save()
                 return redirect('home')
     form = OrderCreationForm()
-    return render(request, 'home.html', context={'castings': castings, 'form': form, 'order': order,'error':error})
+    return render(request, 'home.html', context={'castings': castings, 'form': form, 'orders': order, 'error': error, 'cast_ids' : cast_ids})
 
 
 def casting_detail(request, pk):

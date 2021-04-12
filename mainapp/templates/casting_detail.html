@@ -12,6 +12,11 @@
     <p>Занятость: {{ casting.hour }}</p>
     <p>Ставка: {{ casting.fee }}</p>
     <p>Описание: {{ casting.description }}</p>
+    <form method="post" action="{% url 'create_order' casting.id %}">
+                {% csrf_token %}
+                <input class="btn btn-primary" type="submit" value="Откликнуться на заявку" name="test_id">
+                <input type="hidden" name="casting_id" value={{ casting.id }}>
+    </form>
   </div>
     {% if request.user|has_group:"Moderator" or request.user.is_superuser %}
     <div style="width: 50%; float: left">
@@ -26,9 +31,9 @@
                 <form method="post">
                     {% csrf_token %}
                     {% if order.hired %}
-                        <input class="btn btn-primary" type="submit" value="{{ order.hired }}" name="test_id">Нанять</input>
-                    {% else %}
                         <input class="btn btn-primary" type="submit" value="{{ order.hired }}" name="test_id">Снять кандидатуру</input>
+                    {% else %}
+                        <input class="btn btn-primary" type="submit" value="{{ order.hired }}" name="test_id">Нанять</input>
                     {% endif %}
                     <input type="hidden" value="{{ order.id }}" name="order_id">
                 </form>

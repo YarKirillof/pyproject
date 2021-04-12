@@ -2,7 +2,7 @@
 {% block content %}
     <div class="user-profile">
         <h2>ФИО: {{ query.fio }}</h2>
-        {% if query.photo.url %}
+        {% if query.photo %}
         <img src="{{ query.photo.url }}" sizes="" height="100" width="100" alt="Аватар">
         {% endif %}
         <p>Описание: {{ query.bio }}</p>

@@ -52,7 +52,6 @@ def casting_detail(request, pk):
         else:
             error = form.errors
     form = OrderForm()
-    pass
     return render(request, 'casting_detail.html',
                   context={'casting': casting, 'orders': orders, 'error': error, 'form': form})
 

@@ -19,7 +19,7 @@
         {% for order in orders %}
                 <div>
                     <a href="{% url 'profile_view' order.user.id %}">{{ order.user.fio }}</a> <br>
-                            {% if order.user.photo.url %}
+                            {% if order.user.photo %}
                             <img src="{{ order.user.photo.url }}" sizes="" height="100" width="100" alt="Аватар">
                             {% endif %}
                 </div>

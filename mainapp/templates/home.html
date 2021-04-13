@@ -1,16 +1,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  {% for casting in castings %}
-    <div class="casting-entry">
-      <h2><a href="{% url 'casting_detail' casting.pk %}">{{ casting.title }}</a></h2>
-      <p>Требуются: {{ casting.category }}</p>
-      <h3>Рост: {{ casting.height }} Одежда: {{ casting.size }} Обувь: {{ casting.sizeshoe }}</h3>
-      <p>Дата съемки: {{ casting.date }} Время сбора  {{ casting.time }}</p>
-      <p>Адрес: {{ casting.place }}</p>
-      <p>Занятость: {{ casting.hour }}</p>
-      <p>Ставка: {{ casting.fee }}</p>
-      <p>Описание: {{ casting.description }}</p>
+    {% for casting in castings %}
+        <div class="casting-entry text-white border border-white rounded">
+            <h2><a href="{% url 'casting_detail' casting.pk %}">{{ casting.title }}</a></h2>
+            <p>Требуются: {{ casting.category }}</p>
+            <p>Рост: {{ casting.height }} Одежда: {{ casting.size }} Обувь: {{ casting.sizeshoe }}</p>
+            <p>Дата съемки: {{ casting.date }} Время сбора  {{ casting.time }}</p>
+            <p>Адрес: {{ casting.place }}</p>
+            <p>Занятость: {{ casting.hour }}</p>
+            <p>Ставка: {{ casting.fee }}</p>
+            <p>Описание: {{ casting.description }}</p>
             {% if casting.id in cast_ids %}
                 <form method="post" action="{% url 'delete_order' casting.id %}">
                     {% csrf_token %}
@@ -25,6 +25,6 @@
                     <input type="hidden" name="casting_id" value={{ casting.id }}>
                 </form>
             {% endif %}
-    </div>
-  {% endfor %}
+        </div>
+    {% endfor %}
 {% endblock content %}

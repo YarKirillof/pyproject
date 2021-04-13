@@ -1,21 +1,14 @@
-header h1 a {
-  color: red;
-}
 
 body {
   font-family: 'Source Sans Pro', sans-serif;
   font-size: 18px;
+  background: #343436 !important;;
 }
 
 header {
-  border-bottom: 1px solid #999;
+  border-bottom: 2px solid #999;
   margin-bottom: 2rem;
   display: flex;
-}
-
-header h1 a {
-  color: red;
-  text-decoration: none;
 }
 
 .nav-left {
@@ -29,16 +22,24 @@ header h1 a {
 
 .casting-entry {
   margin-bottom: 2rem;
+  padding-left: 2rem;
 }
 
 .casting-entry h2 {
   margin: 0.5rem 0;
+  text-align: center;
+
 }
 
 .casting-entry h2 a,
 .casting-entry h2 a:visited {
-  color: blue;
+  color: #d9d9e0;
   text-decoration: none;
+
+}
+
+.casting-entry h2 a:hover {
+  color: #246ad2;
 }
 
 .casting-entry p {
@@ -46,6 +47,3 @@ header h1 a {
   font-weight: 400;
 }
 
-.casting-entry h2 a:hover {
-  color: red;
-}

@@ -2,7 +2,7 @@
 
 {% block content %}
     {% for casting in castings %}
-        <div class="casting-entry text-white border border-white rounded">
+        <div class="casting-entry text-black border border-white rounded">
             <h2><a href="{% url 'casting_detail' casting.pk %}">{{ casting.title }}</a></h2>
             <p>Требуются: {{ casting.category }}</p>
             <p>Рост: {{ casting.height }} Одежда: {{ casting.size }} Обувь: {{ casting.sizeshoe }}</p>

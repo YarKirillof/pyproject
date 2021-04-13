@@ -31,9 +31,11 @@
                 <form method="post">
                     {% csrf_token %}
                     {% if order.hired %}
-                        <input class="btn btn-primary" type="submit" value="{{ order.hired }}" name="test_id">Снять кандидатуру</input>
+                        <input class="btn btn-primary" type="submit" value="Снять кандидатуру">
+                        <input type="hidden" value={{ order.hired }} name="test_id">
                     {% else %}
-                        <input class="btn btn-primary" type="submit" value="{{ order.hired }}" name="test_id">Нанять</input>
+                        <input class="btn btn-primary" type="submit" value="Нанять">
+                        <input type="hidden" value={{ order.hired }} name="test_id">
                     {% endif %}
                     <input type="hidden" value="{{ order.id }}" name="order_id">
                 </form>

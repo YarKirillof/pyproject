@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-    <div class="user-profile">
+    <div class="user-profile text-white">
         <h2>ФИО: {{ query.fio }}</h2>
         {% if query.photo %}
         <img src="{{ query.photo.url }}" sizes="" height="100" width="100" alt="Аватар">

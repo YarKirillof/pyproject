@@ -2,7 +2,7 @@
 
 {% block content %}
     <h2>Профиль</h2>
-    <div class="profile-entry">
+    <div class="profile-entry text-white">
         <p>ФИО: {{ queryset.fio }}</p>
     </div>
 
@@ -11,6 +11,6 @@
     {% csrf_token %}
     {{ form.as_p }}
     {{ error }}
-    <button class="btn btn-primary" type="submit">Изменить профиль</button>
+    <button class="btn btn-secondary" type="submit">Изменить профиль</button>
 </form>
 {% endblock content %}

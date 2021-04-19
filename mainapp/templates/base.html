@@ -11,13 +11,16 @@
   </head>
   </head>
   <body>
-    <div>
+  <div>
       <header>
 
           <nav class="navbar navbar-expand-lg navbar-light bg-dark text-white">
-            <div class=" nav-left">
-                <a class="nav-item  nav-link active px-4 text-secondary" href="{% url 'home' %}">Кастинги</a>
-            </div>
+              <div class=" nav-left">
+                  <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                      <li><a class="nav-item  nav-link active px-4 text-secondary" href="{% url 'home' %}">Кастинги</a></li>
+                      <li><a class="nav-item  nav-link active px-4 text-secondary" href="#">Актеры</a></li>
+                  </ul>
+              </div>
 
               {% if user.is_authenticated %}
 
@@ -28,7 +31,7 @@
                   {% endif %}
                   <span class="navbar-text text-white">Здравствуйте, {{ user.username }}</span>
                   <a class="btn btn-outline-light me-2" href="{% url 'logout' %}">Выйти</a>
-                  <a href="{% url 'profile_detail' pk=user.id %}"><button class="btn btn-warning"><i></i>Профиль</button></a>
+                  <a href="{% url 'profile_detail' pk=user.id %}"><button class="btn btn-info"><i></i>Профиль</button></a>
               {% else %}
                   <span class="navbar-text text-white">Вход не выполнен</span>
                   <a class="btn btn-outline-light me-2" href="{% url 'login' %}">Войти</a><br>
@@ -39,9 +42,9 @@
 
       </header>
       <div class="container">
-        {% block content %}
-        {% endblock content %}
+          {% block content %}
+          {% endblock content %}
       </div>
-    </div>
+  </div>
   </body>
 </html>

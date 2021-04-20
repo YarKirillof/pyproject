@@ -32,7 +32,8 @@
                             {% endif %}
                             <div style="display: inline-block;">
                                 <a class="text-white" style="font-size: 160%;" href="{% url 'profile_view' order.user.id %}">{{ order.user.fio }}</a><br>
-                                <a >{{ order.user.height }}/{{ order.user.size }}/{{ order.user.shoe }} Возраст: {{ order.user.birth_date }}</a>
+                                <a >{{ order.user.height }}/{{ order.user.size }}/{{ order.user.shoe }} Возраст: {{ order.user.birth_date }}</a><br>
+{#                                <a >Тел: {{ order.user.phone }}</a>#}
                             </div>
                         </div>
                         <form method="post">

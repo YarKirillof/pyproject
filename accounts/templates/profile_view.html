@@ -11,5 +11,6 @@
         <p>Размер одежды: {{ query.size }}</p>
         <p>Размер обуви: {{ query.shoe }}</p>
         <p>Паспортные данные: {{ query.pass_data }}</p>
+        <a href="{% url 'profile_detail' pk=query.id %}" class="btn btn-primary">Изменить профиль</a>
     </div>
 {% endblock %}

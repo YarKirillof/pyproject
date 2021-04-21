@@ -39,3 +39,8 @@ def profile(request, pk):
 def profile_view(request, pk):
     query = Profile.objects.filter(id=pk).first()
     return render(request, 'profile_view.html', context={'query': query})
+
+
+def view_actors(request):
+    query = Profile.objects.filter(groups__name='Actors')
+    return render(request, 'view_actors.html', context={'query': query})

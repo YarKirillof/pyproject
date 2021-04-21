@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% for q in query %}
+        <div>
+            <a href="{% url 'profile_view' pk=q.id %}">{{ q.fio }}</a>
+        </div>
+    {% endfor %}
+{% endblock content %}

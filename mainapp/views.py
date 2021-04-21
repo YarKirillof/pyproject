@@ -40,7 +40,12 @@ def index(request):
 def casting_detail(request, pk):
     error = ''
     casting = Casting.objects.filter(id=pk).first()
-    orders = Order.objects.prefetch_related('user').filter(casting_id=pk)
+    orders = Order.objects.filter(user_id=request.user.id)
+    cast_ids = []
+    for cast in orders:
+        cast_ids.append(cast.casting.id)
+    orders_true = Order.objects.prefetch_related('user').filter(casting_id=pk).filter(hired=True)
+    orders_false = Order.objects.prefetch_related('user').filter(casting_id=pk).filter(hired=False)
     if request.method == 'POST':
         value = request.POST.get('test_id')
         order = Order.objects.filter(id=request.POST.get('order_id')).first()
@@ -49,6 +54,7 @@ def casting_detail(request, pk):
             tmp_order = form.save(commit=False)
             if value == 'True':
                 tmp_order.hired = False
+                tmp_order.checked_out = False
             elif value == 'False':
                 tmp_order.hired = True
             form.save()
@@ -57,7 +63,7 @@ def casting_detail(request, pk):
             error = form.errors
     form = OrderForm()
     return render(request, 'casting_detail.html',
-                  context={'casting': casting, 'orders': orders, 'error': error, 'form': form})
+                  context={'casting': casting, 'orders_true': orders_true, 'order_false': orders_false, 'error': error, 'form': form, 'cast_ids':cast_ids})
 
 
 def create(request):
@@ -80,3 +86,5 @@ def create(request):
     }
 
     return render(request, 'create.html', data)
+
+

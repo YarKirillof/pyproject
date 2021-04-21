@@ -21,7 +21,7 @@ def order_creation(request, pk):
 def order_delete(request, pk):
     if request.method == 'POST':
         Order.objects.filter(casting_id=pk).filter(user_id=request.user.id).delete()
-        return redirect('home')
+        return redirect('casting_detail', pk=pk)
 
 
 def checked_out(request):

@@ -1,7 +1,3 @@
-import os
-
-from django.shortcuts import render, redirect
-from django.contrib.staticfiles import finders
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.template.loader import get_template
@@ -21,7 +17,7 @@ class MainappListView(ListView):
 
 
 def index(request):
-    castings = Casting.objects.select_related('author').all()
+    castings = Casting.objects.select_related('author').all().order_by('-created')
     casting_male = Casting.objects.filter(category='Мужчина')
     casting_female = Casting.objects.filter(category='Женщина')
     casting_children = Casting.objects.filter(category='Ребенок')
@@ -86,10 +82,11 @@ def casting_detail(request, pk):
 def create(request):
     error = ''
     if request.method == 'POST':
-        form = CastingForm(request.POST)
+        form = CastingForm(request.POST, request.FILES)
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
+            post.image = form.data.get('image')
             post.save()
             return redirect('home')
         else:

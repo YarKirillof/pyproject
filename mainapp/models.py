@@ -24,6 +24,7 @@ class Casting(models.Model):
     image = models.ImageField(verbose_name='Изображение', null=True, blank=True)
     description = models.TextField(verbose_name='Требования', null=True, blank=True)
     fee = models.CharField(max_length=255, null=True, verbose_name='Ставка')
+    created = models.DateTimeField(auto_now_add=True)
 
     # slug = models.SlugField(unique=True)
 

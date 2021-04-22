@@ -1,14 +1,16 @@
 from .models import Casting
 from accounts.models import Profile
-from django.forms import ModelForm, TextInput, DateTimeField, Textarea
+from django import forms
+from django.forms import ModelForm, TextInput, DateTimeField, Textarea, Select
 
 
 class CastingForm(ModelForm):
+    image = forms.ImageField(required=False)
     class Meta:
         model = Casting
         author = 'auth.User'
         fields = ['title', 'category', 'height', 'size', 'sizeshoe',
-                  'place', 'date', 'time', 'hour', 'description', 'fee']
+                  'place', 'date', 'time', 'hour', 'image', 'description', 'fee']
 
         widgets = {
             "title": TextInput(attrs={
@@ -19,7 +21,7 @@ class CastingForm(ModelForm):
             #     'class': 'form-control',
             #     'placeholder': 'Агентство'
             # }),
-            "category": TextInput(attrs={
+            "category": Select(attrs={
                 'class': 'form-control',
                 'placeholder': 'Категория'
             }),

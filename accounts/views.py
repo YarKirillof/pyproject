@@ -1,12 +1,11 @@
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, login
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from django.views import generic
-from .forms import ProfileEditForm, SignUpForm
-from .models import Profile
-from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
+
+from .forms import ProfileEditForm, SignUpForm, LoginForm
+from .models import Profile
 
 User = get_user_model()
 

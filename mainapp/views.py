@@ -1,9 +1,17 @@
+import os
+
 from django.shortcuts import render, redirect
-from django.views.generic import ListView, DetailView
+from django.contrib.staticfiles import finders
+from django.http import HttpResponse
+from django.shortcuts import render, redirect
+from django.template.loader import get_template
+from django.views.generic import ListView
+from xhtml2pdf import pisa
+
+from my_project import settings
 from orders.forms import OrderForm, OrderCreationForm
 from orders.models import Order
 from .forms import CastingForm
-
 from .models import Casting
 
 
@@ -13,39 +21,47 @@ class MainappListView(ListView):
 
 
 def index(request):
-    castings = Casting.objects.all()
+    castings = Casting.objects.select_related('author').all()
+    casting_male = Casting.objects.filter(category='Мужчина')
+    casting_female = Casting.objects.filter(category='Женщина')
+    casting_children = Casting.objects.filter(category='Ребенок')
     error = ''
     order = Order.objects.filter(user_id=request.user.id)
     cast_ids = []
     for cast in order:
         cast_ids.append(cast.casting.id)
     if request.method == 'POST':
-        casting_id = request.POST.get('casting_id')
-        order = Order.objects.filter(casting_id=casting_id, user_id=request.user.id).first()
-        if order:
-            error = 'Заявка уже существует'
-        else:
-            form = OrderForm(request.POST)
-            if form.is_valid():
-                tmp_order = form.save(commit=False)
-                tmp_order.casting = Casting.objects.filter(id=casting_id).first()
-                tmp_order.user = request.user
-                tmp_order.hired = True
-                form.save()
-                return redirect('home')
+        if request.user.fio is not None and request.user.location is not None and request.user.birth_date is not None and request.user.height is not None and request.user.size is not None and request.user.shoe is not None and request.user.phone is not None and request.user.pass_data is not None and request.user.photo is not None:
+            casting_id = request.POST.get('casting_id')
+            order = Order.objects.filter(casting_id=casting_id, user_id=request.user.id).first()
+            if order:
+                error = 'Заявка уже существует'
+            else:
+                form = OrderForm(request.POST)
+                if form.is_valid():
+                    tmp_order = form.save(commit=False)
+                    tmp_order.casting = Casting.objects.filter(id=casting_id).first()
+                    tmp_order.user = request.user
+                    tmp_order.hired = True
+                    form.save()
+                    return redirect('home')
+        else: error = 'Прежде чем подать заявку заполните профиль!'
     form = OrderCreationForm()
-    return render(request, 'home.html', context={'castings': castings, 'form': form, 'orders': order, 'error': error, 'cast_ids' : cast_ids})
+    return render(request, 'home.html',
+                  context={'castings': castings,'casting_male': casting_male,'casting_female':casting_female, 'form': form, 'orders': order, 'error': error, 'cast_ids': cast_ids})
 
 
 def casting_detail(request, pk):
     error = ''
-    casting = Casting.objects.filter(id=pk).first()
+    casting = Casting.objects.filter(id=pk).select_related('author').first()
     orders = Order.objects.filter(user_id=request.user.id)
     cast_ids = []
     for cast in orders:
         cast_ids.append(cast.casting.id)
     orders_true = Order.objects.prefetch_related('user').filter(casting_id=pk).filter(hired=True)
+    true_count = orders_true.count()
     orders_false = Order.objects.prefetch_related('user').filter(casting_id=pk).filter(hired=False)
+    total_count = orders_false.count() + true_count
     if request.method == 'POST':
         value = request.POST.get('test_id')
         order = Order.objects.filter(id=request.POST.get('order_id')).first()
@@ -63,7 +79,8 @@ def casting_detail(request, pk):
             error = form.errors
     form = OrderForm()
     return render(request, 'casting_detail.html',
-                  context={'casting': casting, 'orders_true': orders_true, 'order_false': orders_false, 'error': error, 'form': form, 'cast_ids':cast_ids})
+                  context={'casting': casting, 'orders_true': orders_true, 'order_false': orders_false, 'error': error,
+                           'form': form, 'cast_ids': cast_ids, 'true_count': true_count, 'total_count': total_count})
 
 
 def create(request):
@@ -88,3 +105,23 @@ def create(request):
     return render(request, 'create.html', data)
 
 
+
+def convert_html_to_pdf(request, pk):
+    orders_true = Order.objects.prefetch_related('user').filter(casting_id=pk).filter(hired=True)
+    template_path = 'pdf1.html'
+    context = {'orders': orders_true, 'media': settings.MEDIA_ROOT}
+    # Create a Django response object, and specify content_type as pdf
+    response = HttpResponse(content_type='application/pdf')
+    # response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+    response['Content-Disposition'] = 'filename="report.pdf"'
+
+    # find the template and render it.
+    template = get_template(template_path)
+    html = template.render(context)
+
+    # create a pdf
+    pisa_status = pisa.CreatePDF(
+       html, dest=response)
+    if pisa_status.err:
+       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response

@@ -15,15 +15,19 @@
       <header>
 
           <nav class="navbar navbar-expand-lg navbar-light bg-dark text-white">
-            <div class=" nav-left">
+            <ul class="navbar-nav mr-auto">
                 <a class="nav-item  nav-link active px-4 text-secondary" href="{% url 'home' %}">Кастинги</a>
-            </div>
+                {% if user.is_authenticated %}
+                    {% if request.user|has_group:"Moderator" or request.user.is_superuser %}
+                        <a class="nav-item  nav-link active px-4 text-secondary" href="{% url 'create' %}">Добавить кастинг</a>
+                    {% endif %}
+                {% endif %}
+                <a class="nav-item  nav-link active px-4 text-secondary" href="{% url 'view_actors' %}">Актеры</a>
+            </ul>
 
               {% if user.is_authenticated %}
 
                   {% if request.user|has_group:"Moderator" or request.user.is_superuser %}
-                      <a class="nav-item  nav-link active px-4 text-secondary" href="{% url 'create' %}">Добавить кастинг</a>
-                      <a class="nav-item  nav-link active px-4 text-secondary" href="{% url 'view_actors' %}">Показать актеров</a>
                   {% else %}
                       <a class="nav-item  nav-link active px-4 text-secondary" href="#">Заявки</a>
                   {% endif %}

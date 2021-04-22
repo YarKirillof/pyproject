@@ -1,9 +1,28 @@
 {% extends 'base.html' %}
+{% load has_group %}
+
 
 {% block content %}
     {% for q in query %}
-        <div>
-            <a href="{% url 'profile_view' pk=q.id %}">{{ q.fio }}</a>
+        <div class="row border border-white rounded" style="width:90%; float: left">
+                <div class="column">
+                    {% if q.photo %}
+                        <img class="border border-dark rounded " src="{{ q.photo.url }}" height="100" width="100"
+                             alt="Аватар">
+                    {% endif %}
+                </div>
+                <div class="column">
+                    {% if user.is_authenticated %}
+                        {% if request.user|has_group:"Moderator" or request.user.is_superuser %}
+                            <a class="text-white" style="font-size: 160%;"
+                               href="{% url 'profile_view' q.id %}">{{ q.fio }}</a><br>
+                        {% else %}
+                            <span class="text-white" style="font-size: 160%;">{{ q.fio }}</span><br>
+                        {% endif %}
+                    {% endif %}
+                    <span>{{ q.height }}/{{ q.size }}/{{ q.shoe }} Возраст: {{ q.birth_date }}</span><br>
+                    <span>Тел: {{ order.user.phone }}</span>
+                </div>
         </div>
     {% endfor %}
 {% endblock content %}

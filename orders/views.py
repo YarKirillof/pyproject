@@ -13,7 +13,7 @@ def order_creation(request, pk):
             tmp_order = form.save(commit=False)
             tmp_order.casting = Casting.objects.filter(id=pk).first()
             tmp_order.user = request.user
-            tmp_order.hired = True
+            tmp_order.hired = False
             form.save()
             return redirect('casting_detail', pk=pk)
 
@@ -21,7 +21,7 @@ def order_creation(request, pk):
 def order_delete(request, pk):
     if request.method == 'POST':
         Order.objects.filter(casting_id=pk).filter(user_id=request.user.id).delete()
-        return redirect('casting_detail', pk=pk)
+        return redirect('home')
 
 
 def checked_out(request):

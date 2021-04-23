@@ -22,11 +22,9 @@ def profile(request, pk):
     error = ''
     if request.method == 'POST':
         form = ProfileEditForm(request.POST, request.FILES, instance=queryset)
-        file = form.data.get('photo')
         if form.is_valid():
             post = form.save(commit=False)
             post.user = request.user
-            post.photo = form.data.get('photo')
             post.save()
             return redirect('home')
         else:

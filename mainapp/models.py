@@ -21,7 +21,7 @@ class Casting(models.Model):
     date = models.CharField(max_length=255, null=True, verbose_name='Дата')
     time = models.CharField(max_length=255, null=True, verbose_name='Время')
     hour = models.CharField(max_length=255, null=True, verbose_name='Время_занятости')
-    image = models.ImageField(verbose_name='Изображение', null=True, blank=True)
+    image = models.ImageField(verbose_name='Изображение', null=True, blank=True, upload_to='media/')
     description = models.TextField(verbose_name='Требования', null=True, blank=True)
     fee = models.CharField(max_length=255, null=True, verbose_name='Ставка')
     created = models.DateTimeField(auto_now_add=True)

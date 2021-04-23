@@ -8,8 +8,8 @@
 
 
 <!--    </div>-->
-<!--&lt;!&ndash;<form method="post">&ndash;&gt;-->
-<!--&lt;!&ndash;  {% csrf_token %}&ndash;&gt;-->
-<!--&lt;!&ndash;  {{ form.as_p }}&ndash;&gt;-->
-<!--&lt;!&ndash;</form>&ndash;&gt;-->
-<!--{% endblock content %}-->
+    <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    </form>
+<!--{% endblock content %}

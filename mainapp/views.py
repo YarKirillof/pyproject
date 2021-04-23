@@ -86,7 +86,7 @@ def create(request):
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
-            post.image = form.data.get('image')
+            # post.image = form.data.get('image')
             post.save()
             return redirect('home')
         else:

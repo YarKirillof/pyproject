@@ -8,7 +8,7 @@
 <!--    {{ form.as_p }}-->
     <div class="features text-white">
         <h1>Форма добавления кастинга</h1>
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.title }}<br>
             {{ form.author }}<br>

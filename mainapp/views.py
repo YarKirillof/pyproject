@@ -122,3 +122,11 @@ def convert_html_to_pdf(request, pk):
     if pisa_status.err:
        return HttpResponse('We had some errors <pre>' + html + '</pre>')
     return response
+
+
+def view_orders(request):
+    orders_f = Order.objects.filter(user_id=request.user.id)
+    cast_ids = []
+    for cast in orders_f:
+        cast_ids.append(cast.casting.id)
+    return render(request, 'orders_view.html', context={'orders': orders_f,'cast_ids':cast_ids})

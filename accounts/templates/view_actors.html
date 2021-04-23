@@ -4,6 +4,7 @@
 
 {% block content %}
     {% for q in query %}
+        {% if not q|has_group:"Moderator" and not q.is_superuser %}
         <div class="row border border-white rounded" style="width:90%; float: left">
                 <div class="column">
                     {% if q.photo %}
@@ -24,5 +25,6 @@
                     <span>Тел: {{ order.user.phone }}</span>
                 </div>
         </div>
+        {% endif %}
     {% endfor %}
 {% endblock content %}

@@ -41,5 +41,5 @@ def profile_view(request, pk):
 
 
 def view_actors(request):
-    query = Profile.objects.filter(groups__name='Actors')
+    query = Profile.objects.all()
     return render(request, 'view_actors.html', context={'query': query})

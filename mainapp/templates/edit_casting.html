@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Кастинг</h2>
+
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    {{ error }}
+    <button class="btn btn-secondary" type="submit">Изменить кастинг</button>
+</form>
+{% endblock content %}

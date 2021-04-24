@@ -23,6 +23,11 @@
                     <p>Общее количество заявок: {{ total_count }}</p>
                     <p>Количество принятых актеров: {{ true_count }}</p>
                 {% endif %}
+И                {% if request.user|has_group:"Moderator" or request.user.is_superuser %}
+                    <form enctype="multipart/form-data" action="{% url 'edit_casting' casting.id %}">
+                        <input class="btn btn-primary" type="submit" value="Изменить кастинг">
+                    </form>
+                {% endif %}
                 {% if user.is_authenticated %}
                     {% if casting.id in cast_ids %}
                         <form method="post" action="{% url 'delete_order' casting.id %}">
@@ -40,7 +45,9 @@
                     {% endif %}
                 {% endif %}
                 {% if request.user|has_group:"Moderator" or request.user.is_superuser %}
-                    <a href="{% url 'pdf_creation' casting.id %}"><button class="btn btn-primary">Получить pdf</button></a>
+                    <a href="{% url 'pdf_creation' casting.id %}">
+                        <button class="btn btn-primary">Получить pdf</button>
+                    </a>
                 {% endif %}
             </div>
         </div>

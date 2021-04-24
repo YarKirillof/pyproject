@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load has_group %}
 
 {% block content %}
     {% for casting in castings %}
@@ -16,6 +17,11 @@
             <p>Ставка: {{ casting.fee }}</p>
             <p>Описание: {{ casting.description }}</p>
             <p>Контактное лицо: {{ casting.author.fio }}</p>
+            {% if request.user|has_group:"Moderator" or request.user.is_superuser %}
+                <form enctype="multipart/form-data" action="{% url 'edit_casting' casting.id %}">
+                    <input class="btn btn-primary" type="submit" value="Изменить кастинг">
+                </form>
+            {% endif %}
             {% if user.is_authenticated %}
                 {% if casting.id in cast_ids %}
                     <form method="post" action="{% url 'delete_order' casting.id %}">
@@ -34,7 +40,7 @@
                     </form>
                 {% endif %}
                 {% if error %}
-                        {{ error }}
+                    {{ error }}
                 {% endif %}
             {% endif %}
         </div>

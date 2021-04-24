@@ -2,7 +2,7 @@ from django.urls import path
 
 from orders.views import order_creation, order_delete, checked_out
 from . import views
-from .views import casting_detail, index, convert_html_to_pdf, view_orders
+from .views import casting_detail, index, convert_html_to_pdf, view_orders, edit_casting
 
 urlpatterns = [
     path('casting/<int:pk>/', casting_detail, name='casting_detail'),
@@ -12,6 +12,7 @@ urlpatterns = [
     path('casting/checked_out/', checked_out, name='checked_out'),
     path('create', views.create, name='create'),
     path('casting/pdf_render/<int:pk>', convert_html_to_pdf, name='pdf_creation'),
-    path('orders_view/', view_orders, name='orders_view')
+    path('orders_view/', view_orders, name='orders_view'),
+    path('edit_casting/<int:pk>', edit_casting, name='edit_casting')
 
 ]

@@ -102,6 +102,14 @@ def create(request):
     return render(request, 'create.html', data)
 
 
+def edit_casting(request, pk):
+    if request.method == 'POST':
+        form = CastingForm(request.POST, request.FILES, instance=Casting.objects.filter(id=pk).first())
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    form = CastingForm(instance=Casting.objects.filter(id=pk).first())
+    return render(request, 'edit_casting.html', context={'form': form})
 
 def convert_html_to_pdf(request, pk):
     orders_true = Order.objects.prefetch_related('user').filter(casting_id=pk).filter(hired=True)

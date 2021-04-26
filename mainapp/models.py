@@ -3,9 +3,9 @@ from my_project import settings
 
 # Create your models here.
 CHOICES = (
-    ("Мужчина", "m"),
-    ("Женщина", "f"),
-    ("Ребенок", "c")
+    ("Мужчины", "m"),
+    ("Женщины", "f"),
+    ("Дети", "c")
 )
 
 
@@ -13,7 +13,7 @@ class Casting(models.Model):
     title = models.CharField(max_length=255, null=True, verbose_name='Наименование')
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     category = models.CharField(max_length=255, null=True, verbose_name='Категория', choices=CHOICES, blank=True,
-                                default="Мужчина")
+                                default="Мужчины")
     height = models.CharField(max_length=255, null=True, verbose_name='Рост')
     size = models.CharField(max_length=255, null=True, verbose_name='Размер_одежды')
     sizeshoe = models.CharField(max_length=255, null=True, verbose_name='Размер_обуви')
@@ -26,7 +26,7 @@ class Casting(models.Model):
     fee = models.CharField(max_length=255, null=True, verbose_name='Ставка')
     created = models.DateTimeField(auto_now_add=True)
 
-    # slug = models.SlugField(unique=True)
+
 
     def __str__(self):
         return self.title

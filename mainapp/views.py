@@ -18,9 +18,9 @@ class MainappListView(ListView):
 
 def index(request):
     castings = Casting.objects.select_related('author').all().order_by('-created')
-    casting_male = Casting.objects.filter(category='Мужчина')
-    casting_female = Casting.objects.filter(category='Женщина')
-    casting_children = Casting.objects.filter(category='Ребенок')
+    casting_male = Casting.objects.filter(category='Мужчины')
+    casting_female = Casting.objects.filter(category='Женщины')
+    casting_children = Casting.objects.filter(category='Дети')
     error = ''
     order = Order.objects.filter(user_id=request.user.id)
     cast_ids = []

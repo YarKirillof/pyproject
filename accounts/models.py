@@ -18,28 +18,8 @@ class Profile(AbstractUser):
     size = models.CharField(max_length=10, null=True, blank=True)
     shoe = models.CharField(max_length=10, null=True, blank=True)
     phone = models.CharField(max_length=11, null=True, blank=True)
-    pass_data = models.CharField(max_length=9, null=True, blank=True)
+    pass_data = models.CharField(max_length=10, null=True, blank=True)
     photo = models.ImageField(blank=True, upload_to='media/')
 
-    # @receiver(post_save, sender=User)
-    # def save_or_create_profile(sender, instance, created, **kwargs):
-    #     if created:
-    #         Profile.objects.create(user=instance)
-    #     else:
-    #         try:
-    #             instance.profile.save()
-    #         except ObjectDoesNotExist:
-    #             Profile.objects.create(user=instance)
-
-#
-# @receiver(post_save, sender=User)
-# def create_user_profile(sender, instance, created, **kwargs):
-#     if created:
-#         Profile.objects.create(user=instance)
-#
-# @receiver(post_save, sender=User)
-# def create_user_profile(sender, instance, **kwargs):
-#     instance.profile.save()
-#
 
 

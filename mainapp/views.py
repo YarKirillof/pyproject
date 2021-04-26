@@ -38,7 +38,7 @@ def index(request):
                     tmp_order = form.save(commit=False)
                     tmp_order.casting = Casting.objects.filter(id=casting_id).first()
                     tmp_order.user = request.user
-                    tmp_order.hired = True
+                    tmp_order.hired = False
                     form.save()
                     return redirect('home')
         else: error = 'Прежде чем подать заявку заполните профиль!'

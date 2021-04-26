@@ -6,18 +6,18 @@
     <title>PDF convertion</title>
     <style>
         @font-face {
-         font-family: 'sans-serif';
-            src: url("C:\Users\GreyF\Downloads\proj\pyproject\mainapp\static\fonts\arial.ttf");
+            font-family: 'sans-serif';
+            src: url("C:\Diplom22\pythonProject22\mainapp\static\fonts\arial.ttf");
         }
-         body{
-         font-family: "sans-serif";
-         }
+        body{
+            font-family: "sans-serif";
+        }
     </style>
 </head>
 <body>
 <h1>Список нанятых</h1>
 {% for order in orders %}
-    <img src="{{ order.user.photo.path }}" height="200" width="300">
+
     <p>{{ order.user.fio }}</p>
     <p>{{ order.user.birth_date }}</p>
     <p>{{ order.user.height }}</p>

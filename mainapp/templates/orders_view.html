@@ -6,10 +6,9 @@
     {% for order in orders %}
         <div class="casting-entry text-white border border-white rounded">
             <h2><a href="{% url 'casting_detail' order.casting.pk %}">{{ order.casting.title }}</a></h2>
-            {% if order.casting.image %}
-                <img class="border border-dark rounded " src="{{ order.casting.image.url }}" height="200" width="300"
-                     alt="Аватар">
-            {% endif %}
+        <div class="row justify-content-between">
+        <div class="col-4">
+
             <p>Требуются: {{ order.casting.category }}</p>
             <p>Рост: {{ order.casting.height }} Одежда: {{ order.casting.size }} Обувь: {{ order.casting.sizeshoe }}</p>
             <p>Дата съемки: {{ order.casting.date }} Время сбора {{ order.casting.time }}</p>
@@ -17,7 +16,15 @@
             <p>Занятость: {{ order.casting.hour }}</p>
             <p>Ставка: {{ order.casting.fee }}</p>
             <p>Описание: {{ order.casting.description }}</p>
-            <p>Контактное лицо: {{ order.casting.author.fio }}</p>
+            <p style="font-size: 20px;"> Опубликовал: {{ order.casting.author.fio }}</p>
+        </div>
+            <div class="col-4">
+                {% if order.casting.image %}
+                <img class="border border-white rounded " src="{{ order.casting.image.url }}" height="200" width="300"
+                     alt="Аватар">
+            {% endif %}
+            </div>
+        </div>
             {% if user.is_authenticated %}
                 {% if order.casting.id in cast_ids %}
                     <form method="post" action="{% url 'delete_order' order.casting.id %}">

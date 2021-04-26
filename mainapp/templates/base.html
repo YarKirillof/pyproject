@@ -17,18 +17,18 @@
           <nav class="navbar navbar-expand-lg navbar-light bg-dark text-white">
             <ul class="navbar-nav mr-auto">
                 <a class="nav-item  nav-link active px-4 text-secondary" href="{% url 'home' %}">Кастинги</a>
+                <a class="nav-item  nav-link active px-4 text-secondary" href="{% url 'view_actors' %}">Актеры</a>
                 {% if user.is_authenticated %}
                     {% if request.user|has_group:"Moderator" or request.user.is_superuser %}
                         <a class="nav-item  nav-link active px-4 text-secondary" href="{% url 'create' %}">Добавить кастинг</a>
                     {% endif %}
+                    <a class="nav-item  nav-link active px-4 text-secondary" href="{% url 'orders_view' %}">Заявки</a>
                 {% endif %}
-                <a class="nav-item  nav-link active px-4 text-secondary" href="{% url 'view_actors' %}">Актеры</a>
+
             </ul>
 
               {% if user.is_authenticated %}
 
-
-                  <a class="nav-item  nav-link active px-4 text-secondary" href="{% url 'orders_view' %}">Заявки</a>
                   <span class="navbar-text text-white">Здравствуйте, {{ user.username }}</span>
                   <a class="btn btn-outline-light me-2" href="{% url 'logout' %}">Выйти</a>
                   <a href="{% url 'profile_view' pk=user.id %}"><button class="btn btn-info"><i></i>Профиль</button></a>

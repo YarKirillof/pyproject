@@ -4,12 +4,12 @@
 
 {% block content %}
     <div>
-        <div class="casting-entry text-white" style="width: 50%; float: left">
+        <div class="casting-entry text-white" style="width: 50%; float: right">
             <h2>{{ casting.title }}</h2>
             <div class="border border-white rounded" style="padding-left: 2rem">
                 {% if casting.image %}
-                    <img class="border border-dark rounded " src="{{ casting.image.url }}" height="200" width="300"
-                         alt="Аватар">
+                    <img class="border border-white rounded " src="{{ casting.image.url }}" height="200" width="310"
+                         alt="Аватар"  hspace="20" vspace="20">
                 {% endif %}
                 <p>Требуются: {{ casting.category }}</p>
                 <p>Рост: {{ casting.height }} Одежда: {{ casting.size }} Обувь: {{ casting.sizeshoe }}</p>
@@ -18,16 +18,13 @@
                 <p>Занятость: {{ casting.hour }}</p>
                 <p>Ставка: {{ casting.fee }}</p>
                 <p>Описание: {{ casting.description }}</p>
-                <p>Контактное лицо: {{ casting.author.fio }}</p>
+                <a class="text-white" style="font-size: 20px"
+                   href="{% url 'profile_view' casting.author.id %}"> Опубликовал: {{ casting.author.fio }}</a>
                 {% if request.user|has_group:"Moderator" or request.user.is_superuser %}
                     <p>Общее количество заявок: {{ total_count }}</p>
                     <p>Количество принятых актеров: {{ true_count }}</p>
                 {% endif %}
-И                {% if request.user|has_group:"Moderator" or request.user.is_superuser %}
-                    <form enctype="multipart/form-data" action="{% url 'edit_casting' casting.id %}">
-                        <input class="btn btn-primary" type="submit" value="Изменить кастинг">
-                    </form>
-                {% endif %}
+
                 {% if user.is_authenticated %}
                     {% if casting.id in cast_ids %}
                         <form method="post" action="{% url 'delete_order' casting.id %}">
@@ -44,18 +41,29 @@
                         </form>
                     {% endif %}
                 {% endif %}
+
+                <div class="child">
+                {% if request.user|has_group:"Moderator" or request.user.is_superuser %}
+                    <form enctype="multipart/form-data" action="{% url 'edit_casting' casting.id %}">
+                        <input class="btn btn-warning" type="submit" value="Изменить кастинг">
+                    </form>
+                {% endif %}
+                </div>
+                <div class="child">
                 {% if request.user|has_group:"Moderator" or request.user.is_superuser %}
                     <a href="{% url 'pdf_creation' casting.id %}">
-                        <button class="btn btn-primary">Получить pdf</button>
+                        <button class="btn btn-outline-light me-2">Получить pdf</button>
                     </a>
                 {% endif %}
+                </div>
+
             </div>
         </div>
         {% if request.user|has_group:"Moderator" or request.user.is_superuser %}
             <div class="text-white" style=" width: 50%; float: left">
                 <h2 align="center">Заявки</h2>
                 {% for order in orders_true %}
-                    <div class="row border border-white rounded" style="width:90%; float: right">
+                    <div class="row border border-white rounded" style="width:90%; float: left">
 
                         <div class="column">
                             {% if order.user.photo %}
@@ -67,40 +75,40 @@
                             <form method="post">
                                 {% csrf_token %}
                                 {% if order.hired %}
-                                    <input class="btn btn-primary" type="submit" value="Снять кандидатуру">
+                                    <input class="btn btn-outline-light me-2" type="submit" value="Отменить">
                                     <input type="hidden" value={{ order.hired }} name="test_id">
                                 {% else %}
-                                    <input class="btn btn-primary" type="submit" value="Нанять">
+                                    <input class="btn btn-warning" type="submit" value="Утвердить">
                                     <input type="hidden" value={{ order.hired }} name="test_id">
                                 {% endif %}
                                 <input type="hidden" value="{{ order.id }}" name="order_id">
                             </form>
+                        </div>
+                        <div class="column">
+                            <a class="text-white" style="font-size: 160%;"
+                               href="{% url 'profile_view' order.user.id %}">{{ order.user.fio }}</a><br>
+                            <span style="font-size: 21px;">{{ order.user.height }}/{{ order.user.size }}/{{ order.user.shoe }} Возраст: {{ order.user.birth_date|calculate_age }}</span><br>
+                            <span style="font-size: 21px;">Тел: {{ order.user.phone }}</span>
                             {% if order.hired %}
                                 <form method="post" action="{% url 'checked_out' %}">
                                     {% csrf_token %}
                                     {% if order.checked_out %}
-                                        <input class="btn btn-primary" type="submit" value="Отменить прибытие">
+                                        <input class="btn btn-danger" type="submit" value="Прибытие"  >
                                         <input type="hidden" value="{{ order.checked_out }}" name="checked_out">
                                         <input type="hidden" value="{{ order.id }}" name="order_id">
                                     {% else %}
-                                        <input class="btn btn-primary" type="submit" value="Прибыл">
+                                        <input class="btn btn-success" type="submit" value="Прибыл" >
                                         <input type="hidden" value="{{ order.checked_out }}" name="checked_out">
                                         <input type="hidden" value="{{ order.id }}" name="order_id">
                                     {% endif %}
                                 </form>
                             {% endif %}
                         </div>
-                        <div class="column">
-                            <a class="text-white" style="font-size: 160%;"
-                               href="{% url 'profile_view' order.user.id %}">{{ order.user.fio }}</a><br>
-                            <span>{{ order.user.height }}/{{ order.user.size }}/{{ order.user.shoe }} Возраст: {{ order.user.birth_date|calculate_age }}</span><br>
-                            <span>Тел: {{ order.user.phone }}</span>
-                        </div>
 
                     </div>
                 {% endfor %}
                 {% for order in order_false %}
-                    <div class="row border border-white rounded" style="width:90%; float: right">
+                    <div class="row border border-white rounded" style="width:90%; float: left">
                         <div class="column">
                             {% if order.user.photo %}
                                 <img class="border border-dark rounded " src="{{ order.user.photo.url }}"
@@ -110,11 +118,12 @@
                             {% endif %}
                             <form method="post">
                                 {% csrf_token %}
+
                                 {% if order.hired %}
-                                    <input class="btn btn-primary" type="submit" value="Снять кандидатуру">
+                                    <input class="btn btn-outline-light me-2" type="submit" value="Отменить">
                                     <input type="hidden" value={{ order.hired }} name="test_id">
                                 {% else %}
-                                    <input class="btn btn-primary" type="submit" value="Нанять">
+                                    <input class="btn btn-warning" type="submit" value="Утвердить">
                                     <input type="hidden" value={{ order.hired }} name="test_id">
                                 {% endif %}
                                 <input type="hidden" value="{{ order.id }}" name="order_id">
@@ -123,11 +132,11 @@
                                 <form method="post" action="{% url 'checked_out' %}">
                                     {% csrf_token %}
                                     {% if order.checked_out %}
-                                        <input class="btn btn-primary" type="submit" value="Отменить прибытие">
+                                        <input class="btn btn-dander" type="submit" value="Прибытие">
                                         <input type="hidden" value="{{ order.checked_out }}" name="checked_out">
                                         <input type="hidden" value="{{ order.id }}" name="order_id">
                                     {% else %}
-                                        <input class="btn btn-primary" type="submit" value="Прибыл">
+                                        <input class="btn btn-success" type="submit" value="Прибыл">
                                         <input type="hidden" value="{{ order.checked_out }}" name="checked_out">
                                         <input type="hidden" value="{{ order.id }}" name="order_id">
                                     {% endif %}

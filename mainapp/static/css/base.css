@@ -2,7 +2,7 @@
 body {
   font-family: 'Source Sans Pro', sans-serif;
   font-size: 18px;
-  background: #343436 !important;;
+  background: #343436 !important;
 }
 
 header {
@@ -45,5 +45,11 @@ header {
 .casting-entry p {
   margin: 0;
   font-weight: 400;
+}
+
+.child
+{
+	height: 100px;
+	display: inline-block;
 }
 

@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'mainapp.apps.MainappConfig',
     'accounts.apps.AccountsConfig',
-    'orders'
+    'orders',
+    'django_extensions'
     # 'orders.apps.AccountsConfig'
 
 ]
@@ -125,3 +126,10 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # AUTH_PROFILE_MODULE = 'models.UserProfile'
+
+GRAPH_MODELS = {
+  'all_applications': True,
+  'group_models': True,
+}
+
+

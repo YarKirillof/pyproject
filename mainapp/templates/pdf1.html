@@ -15,16 +15,31 @@
     </style>
 </head>
 <body>
-<h1>Список нанятых</h1>
-{% for order in orders %}
-
-    <p>{{ order.user.fio }}</p>
-    <p>{{ order.user.birth_date }}</p>
-    <p>{{ order.user.height }}</p>
-    <p>{{ order.user.size }}</p>
-    <p>{{ order.user.phone }}</p>
-    <p>{{ order.user.pass_data }}</p>
-    <hr>
-{% endfor %}
+<h1 align="center">Список утвержденных</h1>
+<table class="table table-bordered">
+    <thead>
+    <tr style="border:1px solid black; height: 35px">
+        <th scope="col" >#</th>
+        <th scope="col">ФИО</th>
+        <th scope="col">Номер</th>
+        <th scope="col">Паспорт</th>
+        <th scope="col">Дата рождения</th>
+        <th scope="col">Параметры</th>
+        <th scope="col">Подпись</th>
+    </tr>
+    </thead>
+    {% for order in orders %}
+        <tbody>
+        <tr style="border:1px solid black; height: 35px" >
+            <th scope="row" width="8%">1</th>
+            <td width="26%"><p align="center">{{ order.user.fio }}</p></td>
+            <td width="15%"><p align="center">{{ order.user.phone }}</p></td>
+            <td width="15%"><p align="center">{{ order.user.pass_data }}</p></td>
+            <td width="12%"><p align="center">{{ order.user.birth_date }}</p></td>
+            <td width="12%"><p align="center">{{ order.user.height }} / {{ order.user.size }} / {{ order.user.shoe }}<p></td>
+        </tr>
+        </tbody>
+    {% endfor %}
+</table>
 </body>
 </html>

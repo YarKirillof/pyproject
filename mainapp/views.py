@@ -42,10 +42,12 @@ def index(request):
                     tmp_order.hired = False
                     form.save()
                     return redirect('home')
-        else: error = 'Прежде чем подать заявку заполните профиль!'
+        else:
+            error = 'Прежде чем подать заявку заполните профиль!'
     form = OrderCreationForm()
     return render(request, 'home.html',
-                  context={'castings': castings, 'form': form, 'orders': order, 'error': error, 'cast_ids': cast_ids, 'cast_hired':cast_hired})
+                  context={'castings': castings, 'form': form, 'orders': order, 'error': error, 'cast_ids': cast_ids,
+                           'cast_hired': cast_hired})
 
 
 def casting_detail(request, pk):
@@ -81,7 +83,8 @@ def casting_detail(request, pk):
     form = OrderForm()
     return render(request, 'casting_detail.html',
                   context={'casting': casting, 'orders_true': orders_true, 'order_false': orders_false, 'error': error,
-                           'form': form, 'cast_ids': cast_ids, 'true_count': true_count, 'total_count': total_count, 'cast_hired':cast_hired})
+                           'form': form, 'cast_ids': cast_ids, 'true_count': true_count, 'total_count': total_count,
+                           'cast_hired': cast_hired})
 
 
 def create(request):
@@ -132,9 +135,9 @@ def convert_html_to_pdf(request, pk):
 
     # create a pdf
     pisa_status = pisa.CreatePDF(
-       html, dest=response)
+        html, dest=response)
     if pisa_status.err:
-       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+        return HttpResponse('We had some errors <pre>' + html + '</pre>')
     return response
 
 
@@ -143,4 +146,9 @@ def view_orders(request):
     cast_ids = []
     for cast in orders_f:
         cast_ids.append(cast.casting.id)
-    return render(request, 'orders_view.html', context={'orders': orders_f,'cast_ids':cast_ids})
+    order_hired = Order.objects.filter(user_id=request.user.id).filter(hired=True)
+    order_unhired = Order.objects.filter(user_id=request.user.id).filter(hired=False)
+    cast_hired = []
+    for cast in order_hired:
+        cast_hired.append(cast.casting.id)
+    return render(request, 'orders_view.html', context={'orders_false': order_unhired, 'orders_true': order_hired, 'cast_ids': cast_ids, 'cast_hired': cast_hired})

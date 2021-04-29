@@ -3,7 +3,7 @@
 
 
 {% block content %}
-    {% for order in orders %}
+    {% for order in orders_true %}
         <div class="casting-entry text-white border border-white rounded">
             <h2><a href="{% url 'casting_detail' order.casting.pk %}">{{ order.casting.title }}</a></h2>
         <div class="row justify-content-between">
@@ -27,13 +27,76 @@
         </div>
             {% if user.is_authenticated %}
                 {% if order.casting.id in cast_ids %}
-                    <form method="post" action="{% url 'delete_order' order.casting.id %}">
+                    {% if order.casting.id  in cast_hired %}
+                            <form method="post" action="{% url 'delete_order' order.casting.id %}">
+                                {% csrf_token %}
+                                <input class="btn btn-primary alert alert-info" type="submit" value="Вы приняты"
+                                       name="test_id">
+                                <input type="hidden" name="casting_id" value={{ order.casting.id }}>
+                            </form>
+                        {% else %}
+                            <form method="post" action="{% url 'delete_order' order.casting.id %}">
+                                {% csrf_token %}
+                                <input class="btn btn-primary alert alert-danger" type="submit" value="Отозвать заявку"
+                                       name="test_id">
+                                <input type="hidden" name="casting_id" value={{ order.casting.id }}>
+                            </form>
+                            {{ error }}
+                        {% endif %}
+                {% else %}
+                    <form method="post">
                         {% csrf_token %}
-                        <input class="btn btn-primary alert alert-danger" type="submit" value="Отозвать заявку"
+                        <input class="btn btn-primary alert alert-info" type="submit" value="Откликнуться на заявку"
                                name="test_id">
                         <input type="hidden" name="casting_id" value={{ order.casting.id }}>
                     </form>
-                    {{ error }}
+                {% endif %}
+                {% if error %}
+                        {{ error }}
+                {% endif %}
+            {% endif %}
+        </div>
+    {% endfor %}
+    {% for order in orders_false %}
+        <div class="casting-entry text-white border border-white rounded">
+            <h2><a href="{% url 'casting_detail' order.casting.pk %}">{{ order.casting.title }}</a></h2>
+        <div class="row justify-content-between">
+        <div class="col-4">
+
+            <p>Требуются: {{ order.casting.category }}</p>
+            <p>Рост: {{ order.casting.height }} Одежда: {{ order.casting.size }} Обувь: {{ order.casting.sizeshoe }}</p>
+            <p>Дата съемки: {{ order.casting.date }} Время сбора {{ order.casting.time }}</p>
+            <p>Адрес: {{ order.casting.place }}</p>
+            <p>Занятость: {{ order.casting.hour }}</p>
+            <p>Ставка: {{ order.casting.fee }}</p>
+            <p>Описание: {{ order.casting.description }}</p>
+            <p style="font-size: 20px;"> Опубликовал: {{ order.casting.author.fio }}</p>
+        </div>
+            <div class="col-4">
+                {% if order.casting.image %}
+                <img class="border border-white rounded " src="{{ order.casting.image.url }}" height="200" width="300"
+                     alt="Аватар">
+            {% endif %}
+            </div>
+        </div>
+            {% if user.is_authenticated %}
+                {% if order.casting.id in cast_ids %}
+                    {% if order.casting.id  in cast_hired %}
+                            <form method="post" action="{% url 'delete_order' order.casting.id %}">
+                                {% csrf_token %}
+                                <input class="btn btn-primary alert alert-info" type="submit" value="Вы приняты"
+                                       name="test_id">
+                                <input type="hidden" name="casting_id" value={{ order.casting.id }}>
+                            </form>
+                        {% else %}
+                            <form method="post" action="{% url 'delete_order' order.casting.id %}">
+                                {% csrf_token %}
+                                <input class="btn btn-primary alert alert-danger" type="submit" value="Отозвать заявку"
+                                       name="test_id">
+                                <input type="hidden" name="casting_id" value={{ order.casting.id }}>
+                            </form>
+                            {{ error }}
+                        {% endif %}
                 {% else %}
                     <form method="post">
                         {% csrf_token %}

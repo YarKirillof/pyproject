@@ -18,14 +18,15 @@ class MainappListView(ListView):
 
 def index(request):
     castings = Casting.objects.select_related('author').all().order_by('-created')
-    casting_male = Casting.objects.filter(category='Мужчины')
-    casting_female = Casting.objects.filter(category='Женщины')
-    casting_children = Casting.objects.filter(category='Дети')
     error = ''
     order = Order.objects.filter(user_id=request.user.id)
     cast_ids = []
     for cast in order:
         cast_ids.append(cast.casting.id)
+    order_hired = Order.objects.filter(user_id=request.user.id).filter(hired=True)
+    cast_hired = []
+    for cast in order_hired:
+        cast_hired.append(cast.casting.id)
     if request.method == 'POST':
         if request.user.fio is not None and request.user.location is not None and request.user.birth_date is not None and request.user.height is not None and request.user.size is not None and request.user.shoe is not None and request.user.phone is not None and request.user.pass_data is not None and request.user.photo is not None:
             casting_id = request.POST.get('casting_id')
@@ -44,7 +45,7 @@ def index(request):
         else: error = 'Прежде чем подать заявку заполните профиль!'
     form = OrderCreationForm()
     return render(request, 'home.html',
-                  context={'castings': castings,'casting_male': casting_male,'casting_female':casting_female, 'form': form, 'orders': order, 'error': error, 'cast_ids': cast_ids})
+                  context={'castings': castings, 'form': form, 'orders': order, 'error': error, 'cast_ids': cast_ids, 'cast_hired':cast_hired})
 
 
 def casting_detail(request, pk):
@@ -54,9 +55,13 @@ def casting_detail(request, pk):
     cast_ids = []
     for cast in orders:
         cast_ids.append(cast.casting.id)
-    orders_true = Order.objects.prefetch_related('user').filter(casting_id=pk).filter(hired=True)
+    order_hired = Order.objects.filter(user_id=request.user.id).filter(hired=True)
+    cast_hired = []
+    for cast in order_hired:
+        cast_hired.append(cast.casting.id)
+    orders_true = Order.objects.prefetch_related('user').filter(casting_id=pk).filter(hired=True).order_by('user')
     true_count = orders_true.count()
-    orders_false = Order.objects.prefetch_related('user').filter(casting_id=pk).filter(hired=False)
+    orders_false = Order.objects.prefetch_related('user').filter(casting_id=pk).filter(hired=False).order_by('user')
     total_count = orders_false.count() + true_count
     if request.method == 'POST':
         value = request.POST.get('test_id')
@@ -76,7 +81,7 @@ def casting_detail(request, pk):
     form = OrderForm()
     return render(request, 'casting_detail.html',
                   context={'casting': casting, 'orders_true': orders_true, 'order_false': orders_false, 'error': error,
-                           'form': form, 'cast_ids': cast_ids, 'true_count': true_count, 'total_count': total_count})
+                           'form': form, 'cast_ids': cast_ids, 'true_count': true_count, 'total_count': total_count, 'cast_hired':cast_hired})
 
 
 def create(request):
@@ -110,6 +115,7 @@ def edit_casting(request, pk):
             return redirect('home')
     form = CastingForm(instance=Casting.objects.filter(id=pk).first())
     return render(request, 'edit_casting.html', context={'form': form})
+
 
 def convert_html_to_pdf(request, pk):
     orders_true = Order.objects.prefetch_related('user').filter(casting_id=pk).filter(hired=True)

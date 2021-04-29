@@ -21,5 +21,8 @@ class Profile(AbstractUser):
     pass_data = models.CharField(max_length=10, null=True, blank=True)
     photo = models.ImageField(blank=True, upload_to='media/')
 
+    class Meta:
+        ordering = ['fio']
+
 
 

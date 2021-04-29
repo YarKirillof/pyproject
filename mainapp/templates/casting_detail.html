@@ -27,12 +27,22 @@
 
                 {% if user.is_authenticated %}
                     {% if casting.id in cast_ids %}
-                        <form method="post" action="{% url 'delete_order' casting.id %}">
-                            {% csrf_token %}
-                            <input class="btn btn-primary alert alert-danger" type="submit" value="Отозвать заявку"
-                                   name="test_id">
-                            <input type="hidden" name="casting_id" value={{ casting.id }}>
-                        </form>
+                        {% if casting.id  in cast_hired %}
+                            <form method="post" action="{% url 'delete_order' casting.id %}">
+                                {% csrf_token %}
+                                <input class="btn btn-primary alert alert-info" type="submit" value="Вы приняты"
+                                       name="test_id">
+                                <input type="hidden" name="casting_id" value={{ casting.id }}>
+                            </form>
+                        {% else %}
+                            <form method="post" action="{% url 'delete_order' casting.id %}">
+                                {% csrf_token %}
+                                <input class="btn btn-primary alert alert-danger" type="submit" value="Отозвать заявку"
+                                       name="test_id">
+                                <input type="hidden" name="casting_id" value={{ casting.id }}>
+                            </form>
+                            {{ error }}
+                        {% endif %}
                     {% else %}
                         <form method="post" action="{% url 'create_order' casting.id %}">
                             {% csrf_token %}
